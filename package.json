@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "mon": "nodemon ej2.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,7 +13,9 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "express": "^5.1.0",
     "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
   }
 }
