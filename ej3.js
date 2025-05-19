@@ -44,15 +44,18 @@ function binarySearch(array,id) {
 app.get("/products", (req,res) => {
 	const {price, minPrice, maxPrice } = req.query;
 	console.log(price, minPrice, maxPrice)
-	const result = products.items.filter(product => (price === undefined || price == product.precio) && (minPrice === undefined || minPrice <=  product.precio) && (maxPrice === undefined || maxPrice >=  product.precio))
+	const result = products.items.filter(product =>
+		(price === undefined || price == product.precio) &&
+		(minPrice === undefined || minPrice <=  product.precio) &&
+		(maxPrice === undefined || maxPrice >=  product.precio)
+	);
 	res.send(result);
 });
 
 app.post("/products", (req,res) => {
 	const {nombre, precio} = req.body;
 	if(!nombre || !precio || typeof nombre != "string" || typeof precio != "number") {
-		res.status(400).send({message: "Bad Request"});
-		return;
+		return res.status(400).send({message: "Bad Request"});
 	}
 	const product = {
 		id: products.items.slice(-1)[0]?.id + 1 || 1,
@@ -65,22 +68,21 @@ app.post("/products", (req,res) => {
 
 app.put("/products/:id", (req,res) => {
 	const id = +req.params.id;
-	const {nombre, precio} = req.body;
+	let {nombre, precio} = req.body;
+	precio = +precio;
 
-	if(isNaN(id)) {
-		res.status(400).send({message: "Bad Request"});
-		return;
+	if(isNaN(id) || isNaN(precio)) {
+		return res.status(400).send({message: "Bad Request"});
 	}
 
 	const index = binarySearch(products.items,id);
 
 	if(index == -1) {
-		res.status(404).send({message: "Not Found"});
-		return;
+		return res.status(404).send({message: "Not Found"});
 	}
 	const product = products.items[index];
-	product.nombre = nombre || product.nombre;
-	product.precio = precio || product.precio;
+	if(nombre) product.nombre = nombre;
+	if(precio) product.precio = precio;
 
 	res.send(product);
 });
@@ -88,13 +90,11 @@ app.put("/products/:id", (req,res) => {
 app.delete("/products/:id", (req,res) => {
 	const id = +req.params.id;
 	if(isNaN(id)) {
-		res.status(400).send({message: "Bad Request"});
-		return;
+		return res.status(400).send({message: "Bad Request"});
 	}
 	const index = binarySearch(products.items,id);
 	if(index == -1) {
-		res.status(404).send({message: "Not Found"});
-		return;
+		return res.status(404).send({message: "Not Found"});
 	}
 	products.items.splice(index,1);
 	res.send({message: "OK"});
@@ -104,8 +104,7 @@ app.delete("/products/:id", (req,res) => {
 app.get("/products/:id", (req,res) => {
 	console.log(req.params.id)
 	if(!req.params.id) {
-		res.status(400).send({message: "Bad Request"});
-		return;
+		return res.status(400).send({message: "Bad Request"});
 	}
 	let id = +req.params.id;
 	let result;
@@ -121,8 +120,7 @@ app.get("/products/:id", (req,res) => {
 		}
 	}
 	if(result === undefined) {
-		res.status(404).send({message: "Not Found"});
-		return;
+		return res.status(404).send({message: "Not Found"});
 	}
 	res.send(result);
 })
