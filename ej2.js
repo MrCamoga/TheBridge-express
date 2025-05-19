@@ -56,8 +56,7 @@ app.get("/productos", (req,res) => {
 app.post("/productos", (req,res) => {
 	const {name, description} = req.body;
 	if(!name || !description) {
-		res.status(400).send({message: "Bad Request"});
-		return;
+		return res.status(400).send({message: "Bad Request"});
 	}
 	products.push({
 		id: products.slice(-1)[0]?.id + 1 || 1,
@@ -72,15 +71,13 @@ app.put("/productos/:id", (req,res) => {
 	const {name, description} = req.body;
 
 	if(isNaN(id)) {
-		res.status(400).send({message: "Bad Request"});
-		return;
+		return res.status(400).send({message: "Bad Request"});
 	}
 
 	const index = binarySearch(products,id);
 
 	if(index == -1) {
-		res.status(404).send({message: "Not Found"});
-		return;
+		return res.status(404).send({message: "Not Found"});
 	}
 	const product = products[index];
 	product.name = name || product.name;
@@ -92,13 +89,11 @@ app.put("/productos/:id", (req,res) => {
 app.delete("/productos/:id", (req,res) => {
 	const id = +req.params.id;
 	if(isNaN(id)) {
-		res.status(400).send({message: "Bad Request"});
-		return;
+		return res.status(400).send({message: "Bad Request"});
 	}
 	const index = binarySearch(products,id);
 	if(index == -1) {
-		res.status(404).send({message: "Not Found"});
-		return;
+		return res.status(404).send({message: "Not Found"});
 	}
 	products.splice(index,1);
 	res.send({message: "OK"});
@@ -113,8 +108,7 @@ app.get("/usuarios", (req,res) => {
 app.post("/usuarios", (req,res) => {
 	const {name, email} = req.body;
 	if(!name || !email) {
-		res.status(400).send({message: "Bad Request"});
-		return;
+		return res.status(400).send({message: "Bad Request"});
 	}
 	users.push({
 		id: users.slice(-1)[0]?.id + 1 ?? 1,
@@ -129,15 +123,13 @@ app.put("/usuarios/:id", (req,res) => {
 	const {name, email} = req.body;
 
 	if(isNaN(id)) {
-		res.status(400).send({message: "Bad Request"});
-		return;
+		return res.status(400).send({message: "Bad Request"});
 	}
 
 	const index = binarySearch(users,id);
 
 	if(index == -1) {
-		res.status(404).send({message: "Not Found"});
-		return;
+		return res.status(404).send({message: "Not Found"});
 	}
 	const user = users[index];
 	user.name = name || user.name;
@@ -150,15 +142,13 @@ app.delete("/usuarios/:id", (req,res) => {
 	const id = +req.params.id;
 
 	if(isNaN(id)) {
-		res.status(400).send({message: "Bad Request"});
-		return;
+		return res.status(400).send({message: "Bad Request"});
 	}
 
 	const index = binarySearch(users,id);
 
 	if(index == -1) {
-		res.status(404).send({message: "Not Found"});
-		return;
+		return res.status(404).send({message: "Not Found"});
 	}
 	users.splice(index,1);
 	res.send({message: "OK"});
