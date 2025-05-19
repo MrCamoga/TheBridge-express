@@ -21,7 +21,6 @@ const products = {
   ]
 }
 
-
 /**
 	Returns index if id found, -1 otherwise
 */
@@ -65,7 +64,7 @@ app.post("/products", (req,res) => {
 });
 
 app.put("/products/:id", (req,res) => {
-	const id = parseInt(req.params.id);
+	const id = +req.params.id;
 	const {nombre, precio} = req.body;
 
 	if(isNaN(id)) {
@@ -87,7 +86,7 @@ app.put("/products/:id", (req,res) => {
 });
 
 app.delete("/products/:id", (req,res) => {
-	const id = parseInt(req.params.id);
+	const id = +req.params.id;
 	if(isNaN(id)) {
 		res.status(400).send({message: "Bad Request"});
 		return;
@@ -108,7 +107,7 @@ app.get("/products/:id", (req,res) => {
 		res.status(400).send({message: "Bad Request"});
 		return;
 	}
-	let id = parseInt(req.params.id);
+	let id = +req.params.id;
 	let result;
 	if(!isNaN(id)) {
 		const index = binarySearch(products.items,id);

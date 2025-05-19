@@ -68,7 +68,7 @@ app.post("/productos", (req,res) => {
 });
 
 app.put("/productos/:id", (req,res) => {
-	const id = parseInt(req.params.id);
+	const id = +req.params.id;
 	const {name, description} = req.body;
 
 	if(isNaN(id)) {
@@ -90,7 +90,7 @@ app.put("/productos/:id", (req,res) => {
 });
 
 app.delete("/productos/:id", (req,res) => {
-	const id = parseInt(req.params.id);
+	const id = +req.params.id;
 	if(isNaN(id)) {
 		res.status(400).send({message: "Bad Request"});
 		return;
@@ -125,7 +125,7 @@ app.post("/usuarios", (req,res) => {
 });
 
 app.put("/usuarios/:id", (req,res) => {
-	const id = parseInt(req.params.id);
+	const id = +req.params.id;
 	const {name, email} = req.body;
 
 	if(isNaN(id)) {
@@ -147,7 +147,7 @@ app.put("/usuarios/:id", (req,res) => {
 });
 
 app.delete("/usuarios/:id", (req,res) => {
-	const id = parseInt(req.params.id);
+	const id = +req.params.id;
 
 	if(isNaN(id)) {
 		res.status(400).send({message: "Bad Request"});
